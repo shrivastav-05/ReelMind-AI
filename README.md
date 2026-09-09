@@ -1,6 +1,6 @@
 # Movie Recommendation System
 
-## AI-Powered E-commerce Return Prediction System
+## AI-Powered Movie Recommendation System
 
 **Discover movies you are likely to enjoy using an intelligent Machine Learning-based recommendation system.**
 
