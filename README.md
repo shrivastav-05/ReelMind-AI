@@ -233,7 +233,7 @@ The system can help:
 
 # Project Outcome
 
-The Movie Recommendation System demonstrates an end-to-end Machine Learning and recommendation workflow:
+The Movie Recommendation System demonstrates an end-to-end Machine Learning and recommendation workflow:-
 
 Data Collection → Data Cleaning → Feature Engineering → Feature Processing → Similarity Calculation → Recommendation Engine → Model Serialization → Streamlit Deployment
 
