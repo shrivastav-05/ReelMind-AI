@@ -1,42 +1,39 @@
-# ReturnSense AI
+# Movie Recommendation System
 
 ## AI-Powered E-commerce Return Prediction System
 
-**Predict the probability of an e-commerce order being returned before it happens using Machine Learning.**
+**Discover movies you are likely to enjoy using an intelligent Machine Learning-based recommendation system.**
 
-ReturnSense AI is an end-to-end Machine Learning application that analyzes order and customer-related information to predict return risk and provide a real-time prediction through a Flask web interface.
+Movie Recommendation System is an end-to-end Machine Learning application that analyzes movie information such as genres, keywords, cast, crew, and other metadata to generate personalized movie recommendations.
+
+The system is designed to help users discover similar and relevant movies without manually searching through a large movie catalogue.
 
 ---
 
 # Project Overview
 
-Product returns create additional costs for e-commerce businesses through:
+With thousands of movies available across different platforms, finding a movie based on personal interests can be difficult.
 
-* Reverse logistics
-* Shipping and handling
-* Product inspection
-* Restocking
-* Refund processing
-* Inventory disruption
+This project uses Machine Learning and recommendation techniques to identify movies that are similar to a selected movie and provide relevant recommendations.
 
-ReturnSense AI aims to identify orders with a higher probability of being returned so businesses can make better operational and customer-management decisions.
+The system transforms movie metadata into numerical representations and calculates similarity between movies to generate recommendations.
 
 ---
 
 # Business Problem
 
-The key business question is:
+The key problem is:
 
-> **"Can we identify an order that is likely to be returned before the return occurs?"**
+> **"How can we automatically recommend relevant movies to users based on the movie they are interested in?"**
 
-A predictive return-risk system can help businesses:
+A recommendation system can help:
 
-* Identify high-risk orders
-* Analyze return patterns
-* Reduce avoidable operational costs
-* Improve inventory planning
-* Support targeted customer interventions
-* Improve overall return management
+* Improve movie discovery
+* Reduce search time
+* Provide personalized suggestions
+* Identify similar movies
+* Improve user engagement
+* Demonstrate real-world recommendation-system concepts
 
 ---
 
@@ -44,86 +41,114 @@ A predictive return-risk system can help businesses:
 
 ### Prediction Type
 
-**Binary Classification**
+**Recommendation / Similarity-Based Machine Learning**
 
 ### Target
 
-```text
-Return / No Return
+```Objective
+Selected Movie
+      ↓
+Movie Features
+      ↓
+Feature Representation
+      ↓
+Similarity Calculation
+      ↓
+Similar Movies
+      ↓
+Top Recommendations
 ```
 
-The trained classification model estimates whether an order is likely to be returned.
-
+The system recommends movies based on their similarity to the movie selected by the user.
 ---
 
 # Machine Learning Workflow
 
 ```text
-Raw E-commerce Data
+Raw Movie Dataset
+        ↓
+Data Loading
         ↓
 Data Cleaning
         ↓
 Missing Value Handling
         ↓
-Feature Engineering
+Feature Selection
         ↓
-Categorical Encoding
+Feature Combination
         ↓
-Feature Scaling
+Text / Feature Processing
         ↓
-Train/Test Split
+Vectorization
         ↓
-Classification Models
+Similarity Calculation
         ↓
-Model Evaluation
+Recommendation Engine
         ↓
-Best Model Selection
+Top-N Movie Recommendations
         ↓
-Model Serialization
-        ↓
-Flask Web Application
-        ↓
-Real-Time Return Prediction
+Web Application
 ```
+## Recommendation Method
 
+The system uses a content-based recommendation approach.
+
+Movie information is converted into a machine-readable feature representation. The similarity between movies is then calculated to find movies that have similar characteristics.
+
+The recommendation process can be represented as:
+
+```text
+Movie A
+   ↓
+Extract Movie Features
+   ↓
+Convert Features into Vectors
+   ↓
+Calculate Similarity
+   ↓
+Rank Similar Movies
+   ↓
+Return Top Recommendations
+```
 ---
 
 # Key Features
 
-* Return-risk prediction
-* Machine Learning classification
-* Data preprocessing pipeline
-* Feature encoding and transformation
-* Real-time predictions
-* Flask-based web interface
-* Simple prediction form
-* Saved trained model
+* Movie search and selection
+* Similar movie recommendations
+* Content-based recommendation
+* Movie metadata analysis
+* Feature engineering
+* Text feature processing
+* Similarity-based ranking
+* Top-N recommendations
+* Interactive web interface
+* Fast recommendation generation
 * Easy local deployment
-* Business-oriented prediction output
-
+* Saved recommendation/model artifacts
 ---
 
 
-# Flask Application
+# Streamlit Application
 
-The trained Machine Learning model is integrated into a Flask web application.
+The Machine Learning-based recommendation engine is integrated into a Streamlit web application.
 
-The application allows a user to enter order/customer information and receive a real-time prediction.
+The application allows users to select a movie and receive a list of similar movie recommendations in real time.
 
 ```text
-User Input
-    ↓
-HTML Form
-    ↓
-Flask Backend
-    ↓
-Preprocessing
-    ↓
-Trained ML Model
-    ↓
-Return Prediction
-    ↓
-Prediction Result
+User Selects Movie
+        ↓
+Streamlit Interface
+        ↓
+Recommendation Function
+        ↓
+Movie Feature Processing
+        ↓
+Similarity Calculation
+        ↓
+Top Similar Movies
+        ↓
+Recommendation Results
 ```
 
 ---
@@ -132,11 +157,11 @@ Prediction Result
 
 ## Prediction Interface
 
-![Prediction Interface](screenshots/home.png)
+![Prediction Interface](screenshs/home.png)
 
 ## Prediction Result
 
-![Prediction Result](screenshots/predication.png)
+![Prediction Result](screenshots/predicati.png)
 
 # Technologies Used
 
@@ -146,7 +171,7 @@ Prediction Result
 * **Scikit-learn**
 * **Matplotlib**
 * **Seaborn**
-* **Joblib**
+* **Pickle**
 * **Jupyter Notebook**
 * **Power BI** *(planned dashboard stage)*
   
@@ -163,49 +188,66 @@ pip install -r requirements.txt
 ## Run the Application
 
 ```bash
-python app.py
+streamlit run app.py
+```
+## If the Streamlit command is not recognized, use:
+
+```bash
+python -m streamlit run app.py
 ```
 
-Open the local Flask application in your browser.
-
+Open the local Streamlit application in your browser.
 ---
 
-# Business Impact
+# Recommendation Impact
 
-ReturnSense AI can help e-commerce businesses move from:
+The Movie Recommendation System helps users move from:
 
 ```text
-Reactive Return Management
-            ↓
-Predictive Return Risk Management
+Manual Movie Searching
+        ↓
+Personalized Movie Discovery
 ```
 
-Instead of waiting for returns to happen, businesses can identify potentially high-risk orders and use the prediction as an additional input for operational planning and customer-management decisions.
+Instead of manually browsing through thousands of movies, users can select a movie they like and receive similar movie recommendations based on movie characteristics and metadata.
+
+The system can help:
+
+* Reduce movie search time
+* Improve content discovery
+* Provide relevant movie suggestions
+* Increase user engagement
+* Demonstrate practical recommendation-system concepts
 
 ---
 
 # Future Scope
 
-* Return probability score
-* Explainable AI using SHAP
-* Model monitoring
-* REST API deployment
+* Personalized recommendations based on user history
+* Collaborative filtering
+* Hybrid recommendation system
+* User rating integration
+* User profile-based recommendations
+* Movie rating prediction
+* Recommendation explanation
+* Popularity-aware recommendations
+* Real-time movie database/API integration
+* Recommendation history
+* User feedback-based recommendations
+* Advanced NLP-based recommendations
+* Deep Learning recommendation models
 * Cloud deployment
-* Customer-level return risk
-* Product-level return analytics
-* Return-cost prediction
-* Power BI return-risk dashboard
-* Automated risk alerts
+* REST API integration
 
 ---
 
 # Project Outcome
 
-ReturnSense AI demonstrates an end-to-end Machine Learning application:
+The Movie Recommendation System demonstrates an end-to-end Machine Learning and recommendation workflow:
 
-**Data Preparation → Feature Engineering → Classification → Evaluation → Model Deployment → Real-Time Prediction**
+Data Collection → Data Cleaning → Feature Engineering → Feature Processing → Similarity Calculation → Recommendation Engine → Model Serialization → Streamlit Deployment
 
-The project combines **Machine Learning and Web Development** to convert a predictive model into a usable business application.
+The project combines Python, Data Science, Machine Learning, Natural Language Processing concepts, and Web Development to convert movie metadata into an interactive recommendation application.
 
 ---
 
