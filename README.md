@@ -39,7 +39,7 @@ A recommendation system can help:
 
 # Machine Learning Objective
 
-### Prediction Type
+### Recommendation Type
 
 **Recommendation / Similarity-Based Machine Learning**
 
@@ -110,6 +110,7 @@ Rank Similar Movies
    ↓
 Return Top Recommendations
 ```
+This approach allows the system to recommend movies based on the characteristics of the selected movie.
 ---
 
 # Key Features
@@ -180,6 +181,7 @@ pip install -r requirements.txt
 ```bash
 streamlit run app.py
 ```
+
 ## If the Streamlit command is not recognized, use:
 
 ```bash
