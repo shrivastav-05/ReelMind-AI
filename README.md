@@ -153,16 +153,6 @@ Recommendation Results
 
 ---
 
-# Application Screenshots
-
-## Prediction Interface
-
-![Prediction Interface](screenshs/home.png)
-
-## Prediction Result
-
-![Prediction Result](screenshots/predicati.png)
-
 # Technologies Used
 
 * **Python**
