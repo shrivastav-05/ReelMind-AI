@@ -190,7 +190,7 @@ python -m streamlit run app.py
 
 Open the local Streamlit application in your browser.
 ---
-
+---
 ## Recommendation Impact
 
 The Movie Recommendation System helps users move from:
