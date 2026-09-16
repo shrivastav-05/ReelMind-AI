@@ -1,4 +1,4 @@
-# SalesPulse BI
+# ReelMind AI
 
 # Movie Recommendation System
 
