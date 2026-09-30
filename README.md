@@ -12,7 +12,7 @@ The system is designed to help users discover similar and relevant movies withou
 
 ---
 
-#Project Overview
+# Project Overview
 
 With thousands of movies available across different platforms, finding a movie based on personal interests can be difficult.
 
