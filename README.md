@@ -131,6 +131,8 @@ This approach allows the system to recommend movies based on the characteristics
 * Saved recommendation/model artifacts
 ---
 
+# Application Screenshots
+
 
 # Streamlit Application
 
