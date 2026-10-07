@@ -133,6 +133,8 @@ This approach allows the system to recommend movies based on the characteristics
 
 # Application Screenshots
 
+VERY SOON APPLICATION INTERFACE PROVIDE.
+---
 
 # Streamlit Application
 
