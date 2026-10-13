@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Model Training Configuration</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 24px;
+        font-family: Arial, sans-serif;
+        background: #f3f6fb;
+        color: #202b3c;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 720px;
+        margin: 35px auto;
+      }
+
+      .panel {
+        padding: 30px;
+        background: #ffffff;
+        border: 1px solid #e1e7f0;
+        border-radius: 16px;
+        box-shadow: 0 8px 28px rgba(25, 50, 90, 0.07);
+      }
+
+      h1 {
+        margin-top: 0;
+        color: #183b70;
+        font-size: 26px;
+      }
+
+      .intro {
+        margin-bottom: 28px;
+        color: #586477;
+        line-height: 1.7;
+      }
+
+      .field {
+        margin: 24px 0;
+      }
+
+      .label-row {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 10px;
+      }
+
+      .label-row label {
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      /* Information button */
+      .info-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 21px;
+        height: 21px;
+        padding: 0;
+        flex-shrink: 0;
+        border: 1px solid #b7c9e8;
+        border-radius: 50%;
+        background: #edf4ff;
+        color: #2457c5;
+        font-family: Georgia, serif;
+        font-size: 14px;
+        font-style: italic;
+        font-weight: bold;
+        cursor: pointer;
+        transition:
+          background 0.2s ease,
+          color 0.2s ease;
+      }
+
+      .info-button:hover,
+      .info-button:focus-visible {
+        background: #2457c5;
+        color: #ffffff;
+      }
+
+      .info-description {
+        display: none;
+        margin-bottom: 12px;
+        padding: 13px 14px;
+        border: 1px solid #d5e4ff;
+        border-left: 3px solid #2457c5;
+        border-radius: 8px;
+        background: #f1f6ff;
+        color: #334866;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .info-description.open {
+        display: block;
+        animation: fadeIn 0.18s ease;
+      }
+
+      .info-description p {
+        margin: 0;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 12px 13px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        background: #ffffff;
+        color: #202b3c;
+        font-size: 15px;
+      }
+
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: #2457c5;
+        box-shadow: 0 0 0 3px rgba(36, 87, 197, 0.1);
+      }
+
+      .help-text {
+        margin: 8px 0 0;
+        color: #64748b;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      /* Validation messages */
+      .validation-message {
+        display: none;
+        margin-top: 8px;
+        padding: 9px 11px;
+        border-radius: 7px;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .validation-message.error {
+        display: block;
+        border: 1px solid #f2c5c5;
+        background: #fff0f0;
+        color: #a12626;
+      }
+
+      .validation-message.success {
+        display: block;
+        border: 1px solid #b7ebc7;
+        background: #edfdf3;
+        color: #166534;
+      }
+
+      .invalid-input {
+        border-color: #dc4444 !important;
+        background: #fffafa !important;
+      }
+
+      /* Data Split Preview */
+      .preview {
+        margin: 16px 0 28px;
+        padding: 18px;
+        border: 1px solid #dbe7f8;
+        border-radius: 12px;
+        background: #f8faff;
+      }
+
+      .preview-heading {
+        margin-bottom: 5px;
+        color: #183b70;
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .preview-subtitle {
+        margin-bottom: 16px;
+        color: #64748b;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .split-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .split-card {
+        min-width: 0;
+        padding: 14px;
+        border: 1px solid #dbe7f8;
+        border-radius: 10px;
+        background: #ffffff;
+      }
+
+      .training-card {
+        border-top: 4px solid #16834a;
+      }
+
+      .testing-card {
+        border-top: 4px solid #2457c5;
+      }
+
+      .split-card-title {
+        margin-bottom: 10px;
+        color: #475569;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+      }
+
+      .split-percentage {
+        margin-bottom: 12px;
+        color: #183b70;
+        font-size: 25px;
+        font-weight: 700;
+      }
+
+      .split-card-description {
+        min-height: 35px;
+        margin-bottom: 12px;
+        color: #64748b;
+        font-size: 11px;
+        line-height: 1.6;
+      }
+
+      .progress-track {
+        width: 100%;
+        height: 10px;
+        overflow: hidden;
+        border-radius: 20px;
+        background: #e2e8f0;
+      }
+
+      .progress-bar {
+        width: 80%;
+        height: 100%;
+        border-radius: 20px;
+        transition:
+          width 0.25s ease,
+          background 0.25s ease;
+      }
+
+      .training-bar {
+        background: #16834a;
+      }
+
+      .testing-bar {
+        background: #2457c5;
+      }
+
+      .split-message {
+        margin-top: 14px;
+        padding: 12px;
+        border: 1px solid #b7ebc7;
+        border-radius: 8px;
+        background: #edfdf3;
+        color: #166534;
+        font-size: 12px;
+        line-height: 1.7;
+      }
+
+      .split-message.status-orange {
+        border-color: #f7d49b;
+        background: #fff7e8;
+        color: #92400e;
+      }
+
+      .split-message.status-red {
+        border-color: #f2c5c5;
+        background: #fff0f0;
+        color: #a12626;
+      }
+
+      .btn {
+        display: block;
+        width: 100%;
+        padding: 14px;
+        margin-top: 18px;
+        border: none;
+        border-radius: 9px;
+        background: #16834a;
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+
+      .btn:hover {
+        background: #116b3c;
+      }
+
+      .back-link {
+        display: block;
+        margin-top: 20px;
+        text-align: center;
+        color: #2457c5;
+        text-decoration: none;
+        font-size: 13px;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-3px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 500px) {
+        body {
+          padding: 12px;
+        }
+
+        .panel {
+          padding: 20px;
+        }
+
+        h1 {
+          font-size: 23px;
+        }
+
+        .split-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .split-card-description {
+          min-height: auto;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="container">
+      <section class="panel">
+        <h1>Model Training Configuration</h1>
+
+        <p class="intro">
+          Your previously entered machine details are retained. Configure how
+          the model should be trained and evaluated.
+        </p>
+
+        <form
+          id="configForm"
+          action="{{ url_for('training_loading') }}"
+          method="POST"
+        >
+          <!-- Preserve original machine inputs without displaying them. -->
+          <input type="hidden" name="machine_type" value="{{ machine_type }}" />
+          <input type="hidden" name="air_temp" value="{{ air_temp }}" />
+          <input type="hidden" name="process_temp" value="{{ process_temp }}" />
+          <input
+            type="hidden"
+            name="rotational_speed"
+            value="{{ rotational_speed }}"
+          />
+          <input type="hidden" name="torque" value="{{ torque }}" />
+          <input type="hidden" name="tool_wear" value="{{ tool_wear }}" />
+
+          <!-- Testing Size -->
+          <div class="field">
+            <div class="label-row">
+              <label for="test_size">Testing Size (%)</label>
+
+              <button
+                type="button"
+                class="info-button"
+                aria-label="Testing size information"
+                aria-expanded="false"
+                aria-controls="testInfo"
+                data-info="testInfo"
+              >
+                i
+              </button>
+            </div>
+
+            <div class="info-description" id="testInfo">
+              <p>
+                Testing Size is the percentage of the dataset reserved for final
+                model evaluation. For example, 20% testing means 80% training
+                and 20% testing. Very small test sets may produce less reliable
+                evaluation results.
+              </p>
+            </div>
+
+            <input
+              type="number"
+              id="test_size"
+              name="test_size"
+              min="1"
+              max="99"
+              step="1"
+              value="20"
+              required
+              aria-describedby="testHelp testValidation"
+            />
+
+            <p class="help-text" id="testHelp">
+              Recommended starting range: 11%–30% testing.
+            </p>
+
+            <div class="validation-message" id="testValidation"></div>
+          </div>
+
+          <!-- Split preview directly below Testing Size -->
+          <section class="preview" aria-live="polite">
+            <div class="preview-heading">Data Split Preview</div>
+
+            <div class="preview-subtitle">
+              Percentages, progress bars, and guidance update automatically when
+              Testing Size changes.
+            </div>
+
+            <div class="split-grid">
+              <article class="split-card training-card">
+                <div class="split-card-title">TRAINING DATA</div>
+
+                <div class="split-percentage">
+                  <span id="trainPercentage">80</span>%
+                </div>
+
+                <div class="split-card-description">
+                  Data used to train the model.
+                </div>
+
+                <div class="progress-track">
+                  <div class="progress-bar training-bar" id="trainingBar"></div>
+                </div>
+              </article>
+
+              <article class="split-card testing-card">
+                <div class="split-card-title">TESTING DATA</div>
+
+                <div class="split-percentage">
+                  <span id="testPercentage">20</span>%
+                </div>
+
+                <div class="split-card-description">
+                  Separate data used to evaluate model performance.
+                </div>
+
+                <div class="progress-track">
+                  <div class="progress-bar testing-bar" id="testingBar"></div>
+                </div>
+              </article>
+            </div>
+
+            <div class="split-message" id="splitMessage" role="status">
+              Good starting point: 80% training and 20% testing.
+            </div>
+          </section>
+
+          <!-- Cross-Validation Folds -->
+          <div class="field">
+            <div class="label-row">
+              <label for="cv_folds">Cross-Validation Folds</label>
+
+              <button
+                type="button"
+                class="info-button"
+                aria-label="Cross-validation information"
+                aria-expanded="false"
+                aria-controls="cvInfo"
+                data-info="cvInfo"
+              >
+                i
+              </button>
+            </div>
+
+            <div class="info-description" id="cvInfo">
+              <p>
+                Cross-validation repeatedly trains and validates the model using
+                different folds of the training data. Five folds is a common
+                starting point. Higher fold counts can increase computation time
+                and require enough examples in each class.
+              </p>
+            </div>
+
+            <input
+              type="number"
+              id="cv_folds"
+              name="cv_folds"
+              min="2"
+              max="20"
+              step="1"
+              value="5"
+              required
+              aria-describedby="cvHelp cvValidation"
+            />
+
+            <p class="help-text" id="cvHelp">
+              Choose a whole number between 2 and 20.
+            </p>
+
+            <div class="validation-message" id="cvValidation"></div>
+          </div>
+
+          <!-- Splitting Strategy -->
+          <div class="field">
+            <div class="label-row">
+              <label for="split_strategy">Data Splitting Strategy</label>
+
+              <button
+                type="button"
+                class="info-button"
+                aria-label="Splitting strategy information"
+                aria-expanded="false"
+                aria-controls="strategyInfo"
+                data-info="strategyInfo"
+              >
+                i
+              </button>
+            </div>
+
+            <div class="info-description" id="strategyInfo">
+              <p>
+                Stratified Split attempts to preserve the proportions of failure
+                and non-failure examples in both sets. Non-Stratified Split does
+                not explicitly preserve those proportions. For an imbalanced
+                dataset, stratified splitting is often a sensible default.
+              </p>
+            </div>
+
+            <select
+              id="split_strategy"
+              name="split_strategy"
+              required
+              aria-describedby="strategyHelp"
+            >
+              <option value="stratified" selected>Stratified Split</option>
+
+              <option value="random">Non-Stratified Split</option>
+            </select>
+
+            <p class="help-text" id="strategyHelp">
+              Select how the dataset should be divided.
+            </p>
+          </div>
+
+          <button type="submit" class="btn">Continue to Training</button>
+        </form>
+
+        <a class="back-link" href="{{ url_for('home') }}">
+          Cancel and Return Home
+        </a>
+      </section>
+    </main>
+
+    <script>
+      // INFO BUTTONS:
+      // Open an explanation and hide its corresponding button.
+      document.querySelectorAll(".info-button").forEach(function (button) {
+        button.addEventListener("click", function (event) {
+          event.stopPropagation();
+
+          const infoId = button.getAttribute("data-info");
+          const infoBox = document.getElementById(infoId);
+
+          // Close any other open explanation first.
+          closeAllInfo();
+
+          infoBox.classList.add("open");
+          button.style.display = "none";
+          button.setAttribute("aria-expanded", "true");
+        });
+      });
+
+      // Close the open explanation and restore its info button.
+      function closeAllInfo() {
+        document
+          .querySelectorAll(".info-description.open")
+          .forEach(function (box) {
+            box.classList.remove("open");
+
+            const infoButton = document.querySelector(
+              '[data-info="' + box.id + '"]',
+            );
+
+            if (infoButton) {
+              infoButton.style.display = "inline-flex";
+              infoButton.setAttribute("aria-expanded", "false");
+            }
+          });
+      }
+
+      // Close the explanation when clicking anywhere outside it.
+      document.addEventListener("click", function (event) {
+        const clickedInsideInfo = event.target.closest(
+          ".info-description, .info-button",
+        );
+
+        if (!clickedInsideInfo) {
+          closeAllInfo();
+        }
+      });
+
+      // Close the explanation when the user focuses or enters a form value.
+      document
+        .querySelectorAll("#test_size, #cv_folds, #split_strategy")
+        .forEach(function (input) {
+          input.addEventListener("focus", closeAllInfo);
+          input.addEventListener("input", closeAllInfo);
+          input.addEventListener("change", closeAllInfo);
+        });
+
+      // DATA SPLIT PREVIEW.
+      const testInput = document.getElementById("test_size");
+      const trainOutput = document.getElementById("trainPercentage");
+      const testOutput = document.getElementById("testPercentage");
+      const trainingBar = document.getElementById("trainingBar");
+      const testingBar = document.getElementById("testingBar");
+      const splitMessage = document.getElementById("splitMessage");
+      const testValidation = document.getElementById("testValidation");
+      const cvInput = document.getElementById("cv_folds");
+      const cvValidation = document.getElementById("cvValidation");
+      const configForm = document.getElementById("configForm");
+
+      function setValidation(element, input, text, isValid) {
+        element.textContent = text;
+        element.className = "validation-message";
+
+        if (text) {
+          element.classList.add(isValid ? "success" : "error");
+        }
+
+        input.classList.toggle("invalid-input", !isValid);
+        input.setAttribute("aria-invalid", String(!isValid));
+      }
+
+      function updateSplitPreview() {
+        const rawValue = testInput.value;
+
+        if (rawValue === "") {
+          setValidation(
+            testValidation,
+            testInput,
+            "Enter the percentage of the dataset to reserve for testing.",
+            false,
+          );
+
+          splitMessage.className = "split-message status-red";
+          splitMessage.textContent =
+            "Enter a testing percentage from 1% to 99% to preview the split.";
+
+          return false;
+        }
+
+        const testSize = Number(rawValue);
+
+        if (!Number.isInteger(testSize) || testSize < 1 || testSize > 99) {
+          setValidation(
+            testValidation,
+            testInput,
+            "Testing Size must be a whole number between 1 and 99.",
+            false,
+          );
+
+          splitMessage.className = "split-message status-red";
+          splitMessage.textContent =
+            "Invalid split. Choose a testing percentage from 1 to 99.";
+
+          return false;
+        }
+
+        const trainSize = 100 - testSize;
+
+        trainOutput.textContent = trainSize;
+        testOutput.textContent = testSize;
+
+        trainingBar.style.width = trainSize + "%";
+        testingBar.style.width = testSize + "%";
+
+        setValidation(
+          testValidation,
+          testInput,
+          "Valid testing percentage: " + testSize + "%.",
+          true,
+        );
+
+        if (testSize <= 10) {
+          splitMessage.className = "split-message status-red";
+          splitMessage.textContent =
+            "Warning: The testing set is very small. " +
+            "Evaluation results may be less reliable.";
+
+          testingBar.style.background = "#dc4444";
+          trainingBar.style.background = "#16834a";
+        } else if (testSize <= 30) {
+          splitMessage.className = "split-message";
+          splitMessage.textContent =
+            "Good starting point: " +
+            trainSize +
+            "% training and " +
+            testSize +
+            "% testing.";
+
+          testingBar.style.background = "#2457c5";
+          trainingBar.style.background = "#16834a";
+        } else if (testSize <= 50) {
+          splitMessage.className = "split-message status-orange";
+          splitMessage.textContent =
+            "Note: A larger test set leaves less data available " +
+            "for model training.";
+
+          testingBar.style.background = "#d97706";
+          trainingBar.style.background = "#d97706";
+        } else {
+          splitMessage.className = "split-message status-red";
+          splitMessage.textContent =
+            "Warning: Only " +
+            trainSize +
+            "% of the dataset remains available for training.";
+
+          testingBar.style.background = "#dc4444";
+          trainingBar.style.background = "#dc4444";
+        }
+
+        return true;
+      }
+
+      // Validate cross-validation folds.
+      function validateCVFolds() {
+        const rawValue = cvInput.value;
+        const folds = Number(rawValue);
+
+        if (
+          rawValue === "" ||
+          !Number.isInteger(folds) ||
+          folds < 2 ||
+          folds > 20
+        ) {
+          setValidation(
+            cvValidation,
+            cvInput,
+            "Enter a whole number of folds between 2 and 20.",
+            false,
+          );
+
+          return false;
+        }
+
+        setValidation(
+          cvValidation,
+          cvInput,
+          "Valid configuration: " + folds + " folds.",
+          true,
+        );
+
+        return true;
+      }
+
+      testInput.addEventListener("input", updateSplitPreview);
+      cvInput.addEventListener("input", validateCVFolds);
+
+      configForm.addEventListener("submit", function (event) {
+        const splitIsValid = updateSplitPreview();
+        const foldsAreValid = validateCVFolds();
+
+        if (!splitIsValid || !foldsAreValid) {
+          event.preventDefault();
+
+          if (!splitIsValid) {
+            testInput.focus();
+          } else {
+            cvInput.focus();
+          }
+        }
+      });
+
+      updateSplitPreview();
+      validateCVFolds();
+    </script>
+  </body>
+</html>
